@@ -290,7 +290,7 @@ Polymer({
      */
     validate: function() {
         if (this.required) {
-            if ((this.selectedDate.length) > 0) {
+            if (this.selectedDate && this.selectedDate.length > 0) {
                 if ('.no-value') {
                     $(this).removeClass('no-value');
                 }
