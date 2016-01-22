@@ -277,13 +277,23 @@ Polymer({
     /*
      * Private method to clear the value
      */
-    _floatedLabel: function() {
-
+    _floatedLabel: function(newValue, oldValue) {
         if (this.selectedDate.length > 0) {
             this.classList.add('label-is-floating');
         } else {
             this.classList.remove('label-is-floating');
         }
+
+        //component load condition
+        if(!newValue && !oldValue)
+            return;
+
+        //break loop condition 
+        if(newValue && oldValue && newValue == oldValue)
+            return;
+
+        this.picker.set('select', newValue, { format: this.format });
+        
     },
     /**
      * Function to validate if the date is selected
