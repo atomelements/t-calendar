@@ -285,7 +285,8 @@ Polymer({
         }
 
         //component load condition
-        if(!newValue && !oldValue)
+        //patch ATOM-505 added picker as a condition
+        if(!this.picker && !newValue && !oldValue)
             return;
 
         //break loop condition 
