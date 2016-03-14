@@ -199,7 +199,7 @@ Polymer({
             if (this.max !== null) this.picker.set('max', this.max);
         } else {
             this.picker.set('min', this.min);
-            this.picker.set('max', this.max);
+            if (this.max !== null) this.picker.set('max', this.max);
         }
     },
 
