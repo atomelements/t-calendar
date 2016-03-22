@@ -6,6 +6,8 @@
 <link rel="import" href="calendar-dependency.html">
 <link rel="import" href="../iron-form-element-behavior/iron-form-element-behavior.html">
 <link rel="import" href="../paper-input/paper-input-behavior.html">
+<link rel="import" href="../paper-input/paper-input-error.html">
+<link rel="import" href="../t-input/t-input-container.html">
 <!--
 `t-calendar` is a polymer component which lets the user choose a date. The date picker is built on top of pickadate.js
  
@@ -18,7 +20,7 @@ Example:
 <dom-module id="t-calendar">
     <link rel="import" type="css" href="date.css">
     <template>
-        <t-input-container fire-blur="{{validateOnBlur}}" no-label-float="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
+        <t-input-container id="inputContainer" no-label-float="[[noLabelFloat]]" disabled$="[[disabled]]" invalid="[[invalid]]">
             <label hidden$="[[!label]]">[[label]]</label>
             <div style="width:100%">
             <input  is="iron-input"  id="input"
@@ -142,14 +144,43 @@ Polymer({
             type: Object,
             notify: true,
             observer: '_dateFromObject'
-        }
+        },
 
+        /**
+         * Set to true to disable the floating label. The label disappears when the input value is
+         * not null.
+         */
+        noLabelFloat: {
+            type: Boolean,
+            value: false
+        },
 
+        /**
+         * True if the input is invalid. This property is set automatically when the input value
+         * changes if auto-validating, or when the `iron-input-valid` event is heard from a child.
+         */
+        invalid: {
+            type: Boolean,
+            reflectToAttribute:true,
+            value: false
+        },
+
+        /**
+         * The label for this input. If you're using PaperInputBehavior to
+         * implement your own paper-input-like element, bind this to
+         * `<label>`'s content and `hidden` property, e.g.
+         * `<label hidden$="[[!label]]">[[label]]</label>` in your `template`
+         */
+        label: {
+            type: String,
+            value: 'Select Date'
+        },
     },
 
     attached: function() {
         this._initiate();
         this._changeMinMax();
+        this.$.inputContainer.fireBlur = false;
     },
 
     _getMinMax: function() {
@@ -207,7 +238,8 @@ Polymer({
             onClose: function() {
                 component.opened = false;
                 component.selectedDate = component.$.input.value;
-                $(document.activeElement).blur()
+                $(document.activeElement).blur();
+                component.validate();
                 /*;
                 if (component._input.val() !== "") {
                     component._input.addClass('yes-value').siblings('i').addClass('active');
@@ -279,9 +311,6 @@ Polymer({
      * Function to validate if the date is selected
      */
     validate: function() {
-        if(this.opened){
-            return;
-        }
         if (this.required) {
             if (this.selectedDate && this.selectedDate.length > 0) {
                 $(this).find('t-input-container').removeClass('invalid-input');
