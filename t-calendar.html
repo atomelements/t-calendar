@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="../t-shared-components/jquery.html">
@@ -20,11 +21,31 @@ Example:
 <dom-module id="t-calendar">
     <link rel="import" type="css" href="date.css">
     <template>
-        <t-input-container id="inputContainer" no-label-float="[[noLabelFloat]]" disabled$="[[disabled]]" invalid="[[invalid]]">
+    <style>
+        .input-holder {
+            @apply(--layout-horizontal);
+            @apply(--layout-center);
+            
+            width: 100%;
+
+        }
+        input{
+            @apply(--layout-flex);
+        }
+        .icon{
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            color: var(--form-label-color);
+
+            @apply(--calendar-icon);
+        }
+    </style>
+        <t-input-container id="inputContainer" always-float-label="[[alwaysFloatLabel]]" no-label-float="[[noLabelFloat]]" disabled$="[[disabled]]" invalid="[[invalid]]">
             <label hidden$="[[!label]]">[[label]]</label>
-            <div style="width:100%">
-            <input  is="iron-input"  id="input"
-                bind-value="{{selectedDate}}">
+            <div class="input-holder">
+            <input  is="iron-input" id="input" class="" bind-value="{{selectedDate}}" />
+            <iron-icon class="icon" icon="[[calendarIcon]]" hidden$="[[hideIcon]]"></iron-icon>
             </div>
             <template is="dom-if" if="[[errorMessage]]">
                 <paper-input-error class="error" invalid="[[invalid]]">[[errorMessage]]</paper-input-error>
@@ -75,6 +96,24 @@ Polymer({
             notify: true
         },
 
+         /**
+         * Pass the icon in the calendar widget
+         *@default: date-range from iron-icons
+         */
+        calendarIcon: {
+            type: String,
+            value: 'date-range'
+        },
+
+
+        
+        /**
+         * Hide The icon of the calendar.
+         */
+         hideIcon:{
+            type: Boolean,
+            value:false
+         },
 
         /**
          * This attribute will put the submit format of the date selected in the place holder.
@@ -155,6 +194,15 @@ Polymer({
         },
 
         /**
+         * Set to true to always float the label. Bind this to the
+         * `<paper-input-container>`'s `alwaysFloatLabel` property.
+         */
+        alwaysFloatLabel: {
+            type: Boolean,
+            value: false
+        },
+
+        /**
          * True if the input is invalid. This property is set automatically when the input value
          * changes if auto-validating, or when the `iron-input-valid` event is heard from a child.
          */
@@ -173,7 +221,7 @@ Polymer({
         label: {
             type: String,
             value: 'Select Date'
-        },
+        }
     },
 
     attached: function() {
