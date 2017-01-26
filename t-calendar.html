@@ -23,16 +23,18 @@ Example:
     <template>
     <style>
         .input-holder {
-            @apply(--layout-horizontal);
-            @apply(--layout-center);
-            
             width: 100%;
-
+            padding-right: 20px;
         }
         input{
             @apply(--layout-flex);
         }
         .icon{
+            position: absolute;
+            right: 0;
+            top: 0;
+            top: 50%;
+            transform: translateY(-50%);
             width: 20px;
             height: 20px;
             margin-right: 5px;
@@ -44,8 +46,8 @@ Example:
         <t-input-container id="inputContainer" always-float-label="[[alwaysFloatLabel]]" no-label-float="[[noLabelFloat]]" disabled$="[[disabled]]" invalid="[[invalid]]">
             <label hidden$="[[!label]]">[[label]]</label>
             <div class="input-holder">
-            <input  is="iron-input" id="input" class="" bind-value="{{selectedDate}}" />
-            <iron-icon class="icon" icon="[[calendarIcon]]" hidden$="[[hideIcon]]"></iron-icon>
+                <input  is="iron-input" id="input" class="" bind-value="{{selectedDate}}" />
+                <iron-icon class="icon" icon="[[calendarIcon]]" hidden$="[[hideIcon]]"></iron-icon>
             </div>
             <template is="dom-if" if="[[errorMessage]]">
                 <paper-input-error class="error" invalid="[[invalid]]">[[errorMessage]]</paper-input-error>
