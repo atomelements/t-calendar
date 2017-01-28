@@ -47,7 +47,7 @@ Example:
             <label hidden$="[[!label]]">[[label]]</label>
             <div class="input-holder">
                 <input  is="iron-input" id="input" class="" bind-value="{{selectedDate}}" />
-                <iron-icon class="icon" icon="[[calendarIcon]]" hidden$="[[hideIcon]]"></iron-icon>
+                <iron-icon class="icon" icon="[[calendarIcon]]" hidden$="[[hideIcon]]" on-tap="open"></iron-icon>
             </div>
             <template is="dom-if" if="[[errorMessage]]">
                 <paper-input-error class="error" invalid="[[invalid]]">[[errorMessage]]</paper-input-error>
@@ -355,6 +355,13 @@ Polymer({
             format: this.format
         });
 
+    },
+   
+    /**
+     * Function to open the calendar
+     */
+    open: function(){
+     this.picker.open();
     },
     /**
      * Function to validate if the date is selected
