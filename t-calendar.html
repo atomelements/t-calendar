@@ -361,7 +361,9 @@ Polymer({
      * Function to open the calendar
      */
     open: function(){
-     this.picker.open();
+     setTimeout(function(){
+           this.picker.open();           
+       }.bind(this), 200);
     },
     /**
      * Function to validate if the date is selected
