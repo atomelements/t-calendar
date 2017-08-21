@@ -27,7 +27,7 @@
   "dependencies": {
     "iron-icons": "PolymerElements/iron-icons#^1.0.3",
     "iron-input": "PolymerElements/iron-input#^1.0.6",
-    "t-input": "atomelements/t-input#^1.0.6",
+    "t-input": "atomelements/t-input#^1.2.8",
     "paper-material": "PolymerElements/paper-material#^1.0.2",
     "polymer": "Polymer/polymer#^1.0.0"
   },
